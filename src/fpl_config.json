@@ -1,0 +1,21 @@
+{
+
+    "get_bootstrap_static":
+    {
+        "api_endpoint" : "https://fantasy.premierleague.com/api/bootstrap-static/",
+        "column_list" : ["id", "", "second_name", "selected_by_percent", "transfers_in", "transfers_out", "request_ts"],
+        "insert_script" : "INSERT into transfers (id, first_name, second_name, selected_by_percent, transfers_in, transfers_out, request_ts) VALUES (%s, %s, %s, %s, %s, %s, %s)",
+        "keys" : ["events", "game_settings", "phases", "teams", "total_players", "elements", "elements_stats", "element_types"]
+    },
+
+    "get_fixtures":
+    {
+        "api_endpoint" : "https://fantasy.premierleague.com/api/bootstrap-static/"
+    },
+
+    "get_element_summary":
+    {
+        "api_endpoint" :"https://fantasy.premierleague.com/api/bootstrap-static/"
+    }
+
+}
