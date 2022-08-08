@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS events (
 	is_next				bool NOT NULL,
 	cup_leagues_created		bool NOT NULL, 	
 	h2h_ko_matches_created		bool NOT NULL, 
-	chip_plays			varchar(128),
+	chip_plays			varchar(256) NOT NULL,
 	most_selected			varchar(3),
 	most_transferred_in		varchar(3),
 	top_element			varchar(3),
