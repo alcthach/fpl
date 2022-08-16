@@ -120,7 +120,14 @@ def load_to_db(file_to_load, endpoint):
         data = json.load(endpoint)
 
     # Initialize counter
-    rows_added = 0
+    rows_added = 0 # EDIT: scoped incorrectly! see load_to_db()
+
+    # Print type for data
+    # If the object is a list, it'll just count the number of elements
+    # IF the object is a dict, it'll count the number of key values pairs
+    # If the object is an int, you're SOL
+    print(type(data))
+    
 
     # Intialize insert_values list, TODO scope this properly, have it re-initialize which each endpoint
     # insert_values_lst = [ ] 
@@ -146,34 +153,44 @@ def load_to_db(file_to_load, endpoint):
     # Re: Just trying to debug this and see if I'm getting the outputs that I'm looking for
     # After than I will try to insert values into the db
 
-    if len(data) > 1:
-        print("This endpoint has multiple rows")
-        for dict in data:
-            unpacked_values_lst = [*dict.values()]
-            insert_values_lst = [ ] 
-                # Create properly formatted data types, I.E. convert to str if appropriate
-            for element in unpacked_values_lst:
-                if type(element) not in [list, dict]:
-                    insert_values_lst.append(element)
+    if type(data) in [list, dict]:
+        if len(data) > 1:
+            # print("This endpoint has multiple rows")
+            for i in data:
+                if type(i) != dict:
+                    pass
+                    # print(f"This object is not a dict")
                 else:
-                    insert_values_lst.append(str(element))
+                    unpacked_values_lst = [*i.values()]
+                    insert_values_lst = [ ] 
+                        # Create properly formatted data types, I.E. convert to str if appropriate
+                    for element in unpacked_values_lst:
+                        if type(element) not in [list, dict]:
+                            insert_values_lst.append(element)
+                        else:
+                            insert_values_lst.append(str(element))
+
+                rows_added += 1
+
+            print(f"Rows added: {rows_added}")
+
+                    # print(transactions_sql, tuple(insert_values_lst))
+                    # cur.execute(transactions_sql, tuple(insert_values_lst))
 
 
-            print(transactions_sql, tuple(insert_values_lst))
-            # cur.execute(transactions_sql, tuple(insert_values_lst))
+            # Do I need the commands below to run everytime insert a new row into the table???
+            # Or am I okay to commit changes and close connection after all the tables have been updated?
+            # As a side-note, it would be lovely to find someone to help review my code!
+            # conn.commit()
+            # conn.close()
 
 
-        # Do I need the commands below to run everytime insert a new row into the table???
-        # Or am I okay to commit changes and close connection after all the tables have been updated?
-        # As a side-note, it would be lovely to find someone to help review my code!
-        # conn.commit()
-        # conn.close()
-
+        else:
+            print("This endpoint has less than two rows")
 
     else:
-        print("This endpoint has less than two rows")
+        pass
 
-    
 
 def load_transfers_postgresql(file_to_load):
 
@@ -281,6 +298,7 @@ def main():
     # load_events_postgresql(file_to_load)
     # load_bootstrap_game_settings(file_to_load)
     for endpoint in endpoints:
+        rows_added = 0
         file_to_load = f"../data/get_bootstrap_static_{endpoint}.txt" 
         load_to_db(file_to_load, endpoint)
         print(f"Loaded {endpoint} to staging layer")
