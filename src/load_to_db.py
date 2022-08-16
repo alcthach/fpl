@@ -29,12 +29,6 @@ import json
 # I ran some commands in interactive Python CLI, I could initialize a class with a list of the endpoints # That are present in the config file using `[key for key in config_data['get_bootstrap_static']['endpoint']]`
 
 
-# Config file to pull column list and insert scripts
-# TODO containerize within an init function
-config_file = "fpl_config.json"
-config = open(config_file)
-config_data = json.load(config)
-endpoints = [endpoint for endpoint in config_data['get_bootstrap_static']['endpoints']]
 
 """
 Notes:
@@ -122,10 +116,13 @@ def load_to_db(file_to_load, endpoint):
     # Initialize counter
     rows_added = 0 # EDIT: scoped incorrectly! see load_to_db()
 
+
+
     # Print type for data
     # If the object is a list, it'll just count the number of elements
     # IF the object is a dict, it'll count the number of key values pairs
     # If the object is an int, you're SOL
+    print(f"Loading {file_to_load}")
     print(type(data))
     
 
@@ -153,16 +150,136 @@ def load_to_db(file_to_load, endpoint):
     # Re: Just trying to debug this and see if I'm getting the outputs that I'm looking for
     # After than I will try to insert values into the db
 
+"""
+Notes
+2022-08-14
+
+- I've been experiencing some strife with the block of code below
+- It's good that I aware of how it's making me feel, blocked for lack of better word
+- In which case, it's made me realized that I should discard this pattern
+- Reason being, the function is going to be difficult to write a test for
+- And I feel bad for anyone that has to understand the control for the loops below, I mean it's a nested if loop within a nested if loop with a for loop nested in the if loop
+- There's just too many layers
+- Instead I'll explode this code block, writing a separate function based on what sort of data type I'm looking at :)
+
+- PSEUDOCODE:
+    for row in data:
+        for element in row:
+            check type, if type is in dict or lst:
+                convert to str and append to insert_values
+            else:
+                append element to list
+    convert to tuple
+    return values_to_insert tuple
+
+def load_to_db_if_dict(data):
+    pull values
+    for each value in lst of values:
+        check type
+            if type is dict or lst
+                convert to str
+        otherwise append to insert values list
+    convert values_to_insert to tuple
+    return values_to_insert
+
+def load_to_db_if_int(data):
+    return that number
+
+
+def load_to_db_main(object):    
+    if object is list:
+        then load_to_db_if_lst()
+    else if object is dict:
+        then load_to_db_if_dict()
+    else if object is int:
+        then load_to_db_if_int()
+    else:
+        pass
+
+
+
+"""
+
+# REVISED CODE FOR EASIER TESTING AND READABILITY
+
+import psycopg2
+import json
+
+
+# Config file to pull column list and insert scripts
+# TODO containerize within an init function
+config_file = "fpl_config.json"
+config = open(config_file)
+config_data = json.load(config)
+# Parses through config_data to find the endpoints that are available, this is dynamic
+endpoints = [endpoint for endpoint in config_data['get_bootstrap_static']['endpoints']]
+
+# As part of init function, endpoint will be passed as an argument
+transactions_sql = config_data['get_bootstrap_static']['endpoints'][endpoint]['insert_script']
+
+def setup_psycopg():
+    conn = psycopg2.connect("dbname=fpl user=postgres")
+    cur = conn.cursor()
+
+def get_data(file_to_load, endpoint):
+    with open(file_to_load) as file:
+        data = json.load(file)
+    return data
+
+def convert_to_str(raw_values):
+    converted_values = [ ] 
+    for value in raw_values:
+        if type(value) not in [list, dict]:
+            converted_values.append(value)
+        else:
+            converted_values.append(str(value))
+    return tuple(converted_values)
+
+def load_to_db_if_lst(data):
+    for row in data:
+        raw_values = [*row.values()]
+        values_to_insert = convert_to_str(raw_values)
+
+        cur.execute(transactions_sql, values_to_insert)
+
+def load_to_db_if_dict(data):
+    raw_values = [*data.values()]
+    values_to_insert = convert_to_str(raw_values)
+    
+    cur.execute(transactions_sql, values_to_insert)
+
+def load_to_db_if_int:
+    pass
+
+# Prepares data to be loaded based on input data type
+def load_to_db_main(data):
+    for endpoint in endpoints:
+        file_to_load = f"../data/get_bootstrap_static_{endpoint}.txt"
+        data = get_data(endpoint)
+        if type(data) == dict:
+            load_to_db_if_dict(data)
+        elif type(data) == list:
+            load_to_db_if_list(data)
+        elif type(data) == int:
+            load_to_db_if_int(data)
+        else:
+            pass
+    
+    # Commit changes and close connection after all the data is loaded
+    conn.commit()
+    conn.close()
+# -----------------------------------------------------------------------------
+
     if type(data) in [list, dict]:
         if len(data) > 1:
-            # print("This endpoint has multiple rows")
+            print("This endpoint has multiple rows")
             for i in data:
+                insert_values_lst = [ ] 
                 if type(i) != dict:
                     pass
                     # print(f"This object is not a dict")
                 else:
                     unpacked_values_lst = [*i.values()]
-                    insert_values_lst = [ ] 
                         # Create properly formatted data types, I.E. convert to str if appropriate
                     for element in unpacked_values_lst:
                         if type(element) not in [list, dict]:
@@ -172,10 +289,9 @@ def load_to_db(file_to_load, endpoint):
 
                 rows_added += 1
 
-            print(f"Rows added: {rows_added}")
 
-                    # print(transactions_sql, tuple(insert_values_lst))
-                    # cur.execute(transactions_sql, tuple(insert_values_lst))
+            # print(transactions_sql, tuple(insert_values_lst))
+            # cur.execute(transactions_sql, tuple(insert_values_lst))
 
 
             # Do I need the commands below to run everytime insert a new row into the table???
@@ -185,12 +301,12 @@ def load_to_db(file_to_load, endpoint):
             # conn.close()
 
 
-        else:
-            print("This endpoint has less than two rows")
+            print(f"Rows added: {rows_added}")
+            print("")
 
     else:
-        pass
-
+        print("This endpoint has less than two rows")
+        print("")
 
 def load_transfers_postgresql(file_to_load):
 
