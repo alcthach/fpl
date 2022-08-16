@@ -24,6 +24,9 @@ class Scraper:
         self.data = request.json()[self.key]
         return self.data
 
+    def get_player_value_snapshot(self, data):
+        pass
+
     def get_transfers_snapshot(self, data):
 
         current_time = datetime.datetime.now().isoformat()
@@ -67,4 +70,3 @@ keys_lst = ['events', 'game_settings', 'phases', 'teams', 'total_players', 'elem
 for key in keys_lst:
     Scraper('get_bootstrap_static', key)
 
-# TODO continue building the rest of the scraper, grab other end points as well!
