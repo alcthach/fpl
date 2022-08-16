@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS events (
 	average_entry_score		int NOT NULL, 
 	finished			bool NOT NULL,
 	data_checked			bool NOT NULL, 
-	highest_scoring_entry		varchar(32),           
+	highest_scoring_entry		varchar(128),           
  	deadline_time_epoch 		varchar(16) NOT NULL,
 	deadline_time_game_offset	int NOT NULL,
 	highest_score			int,
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS events (
 	most_selected			varchar(3),
 	most_transferred_in		varchar(3),
 	top_element			varchar(3),
-	top_element_info		varchar(32),
+	top_element_info		varchar(128),
 	transfers_made			varchar(3),
 	most_captained			varchar(3),
 	most_vice_captained		varchar(3)
@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS game_settings (
 	sys_vice_captain_enabled		bool NOT NULL,
 	transfers_cap				int NOT NULL,
 	transfers_sell_on_fee			float NOT NULL,
-	league_h2h_tiebreak_stats		varchar(32) NOT NULL,
+	league_h2h_tiebreak_stats		varchar(128) NOT NULL,
 	timezone				varchar(8)
 );
 
@@ -99,7 +99,7 @@ CREATE TABLE IF NOT EXISTS teams (
 	unavailable		varchar(16),
 	win			int,
 	strength_overall_home	int NOT NULL,
-	strength_overal_away	int NOT NULL,
+	strength_overall_away	int NOT NULL,
 	strength_attack_home	int NOT NULL,
 	strength_attack_away	int NOT NULL,
 	strength_defence_home	int NOT NULL,
@@ -130,16 +130,16 @@ CREATE TABLE IF NOT EXISTS elements (
 	ep_next					float NOT NULL,
 	ep_this					float,
 	event_points				float,
-	first_name				varchar(32) NOT NULL,
+	first_name				varchar(64) NOT NULL,
 	form					float,
 	id					varchar(3) NOT NULL,
 	in_dreamteam				bool NOT NULL,
 	news					varchar(256),
-	news_added				varchar(32), -- TODO tentative
+	news_added				varchar(128), -- TODO tentative
 	now_cost				int NOT NULL,
 	photo					varchar(16),
 	points_per_game				float,
-	second_name				varchar(32),
+	second_name				varchar(64),
 	selected_by_percent			float,
 	special					bool NOT NULL,
 	squad_number				varchar(16),
@@ -192,8 +192,8 @@ CREATE TABLE IF NOT EXISTS elements (
 -- Bootstrap.elements_stats
 
 CREATE TABLE IF NOT EXISTS element_stats(
-	label	varchar(16) NOT NULL,
-	name	varchar(16) NOT NULL
+	label	varchar(32) NOT NULL,
+	name	varchar(32) NOT NULL
 );
 
 
@@ -202,7 +202,7 @@ CREATE TABLE IF NOT EXISTS element_stats(
 CREATE TABLE IF NOT EXISTS element_types (
 	id			varchar(3) NOT NULL,
 	plural_name		varchar(16), -- Might need to open this up later
-	plrual_name_short	varchar(3) NOT NULL,
+	plural_name_short	varchar(3) NOT NULL,
 	singular_name		varchar(16) NOT NULL, 
 	singular_name_short	varchar(3) NOT NULL,
 	squad_select		varchar(4) NOT NULL,
