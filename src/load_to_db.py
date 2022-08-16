@@ -192,7 +192,7 @@ def load_to_db_main(object):
     else if object is dict:
         then load_to_db_if_dict()
     else if object is int:
-        then load_to_db_if_int()
+    d    then load_to_db_if_int()
     else:
         pass
 
@@ -206,20 +206,22 @@ import psycopg2
 import json
 
 
-# Config file to pull column list and insert scripts
-# TODO containerize within an init function
-config_file = "fpl_config.json"
-config = open(config_file)
-config_data = json.load(config)
-# Parses through config_data to find the endpoints that are available, this is dynamic
-endpoints = [endpoint for endpoint in config_data['get_bootstrap_static']['endpoints']]
+def load_config(config_file):
+    config = open(config_file)
+    config_data = json.load(config)
+    return config_data
 
-# As part of init function, endpoint will be passed as an argument
-transactions_sql = config_data['get_bootstrap_static']['endpoints'][endpoint]['insert_script']
+def get_endpoints(config_data):
+    endpoints = [endpoint for endpoint in config_data['get_bootstrap_static']['endpoints']]
+    return endpoints
 
-def setup_psycopg():
-    conn = psycopg2.connect("dbname=fpl user=postgres")
-    cur = conn.cursor()
+def parse_insert_script(config_data, endpoint):
+    transactions_sql = config_data['get_bootstrap_static']['endpoints'][endpoint]['insert_script']
+    return transactions_sql
+
+# def setup_psycopg():
+    # conn = psycopg2.connect("dbname=fpl user=postgres")
+    # cur = conn.cursor()
 
 def get_data(file_to_load, endpoint):
     with open(file_to_load) as file:
@@ -227,7 +229,7 @@ def get_data(file_to_load, endpoint):
     return data
 
 def convert_to_str(raw_values):
-    converted_values = [ ] 
+    converted_values = [ ]
     for value in raw_values:
         if type(value) not in [list, dict]:
             converted_values.append(value)
@@ -235,31 +237,44 @@ def convert_to_str(raw_values):
             converted_values.append(str(value))
     return tuple(converted_values)
 
-def load_to_db_if_lst(data):
+def load_to_db_if_lst(data, endpoint):
     for row in data:
         raw_values = [*row.values()]
         values_to_insert = convert_to_str(raw_values)
+    print(f"Loaded {endpoint} endpoint.")
+        # cur.execute(transactions_sql, values_to_insert)
 
-        cur.execute(transactions_sql, values_to_insert)
-
-def load_to_db_if_dict(data):
+def load_to_db_if_dict(data, endpoint):
     raw_values = [*data.values()]
     values_to_insert = convert_to_str(raw_values)
-    
-    cur.execute(transactions_sql, values_to_insert)
+    print(f"Loaded {endpoint} endpoint.")
+    # cur.execute(transactions_sql, values_to_insert)
 
-def load_to_db_if_int:
+def load_to_db_if_int(data):
     pass
 
 # Prepares data to be loaded based on input data type
-def load_to_db_main(data):
+def main():
+    # TODO Add to def init
+    conn = psycopg2.connect("dbname=fpl user=postgres")
+    cur = conn.cursor()
+
+    config_file = "fpl_config.json"
+    
+    # setup_psycopg()
+
+    config_data = load_config(config_file)
+    
+    endpoints = get_endpoints(config_data)
+    
     for endpoint in endpoints:
         file_to_load = f"../data/get_bootstrap_static_{endpoint}.txt"
-        data = get_data(endpoint)
+        data = get_data(file_to_load, endpoint)
+        transactions_sql = parse_insert_script(config_data, endpoint)
         if type(data) == dict:
-            load_to_db_if_dict(data)
+            load_to_db_if_dict(data, endpoint)
         elif type(data) == list:
-            load_to_db_if_list(data)
+            load_to_db_if_lst(data, endpoint)
         elif type(data) == int:
             load_to_db_if_int(data)
         else:
@@ -270,6 +285,7 @@ def load_to_db_main(data):
     conn.close()
 # -----------------------------------------------------------------------------
 
+"""
     if type(data) in [list, dict]:
         if len(data) > 1:
             print("This endpoint has multiple rows")
@@ -418,6 +434,8 @@ def main():
         file_to_load = f"../data/get_bootstrap_static_{endpoint}.txt" 
         load_to_db(file_to_load, endpoint)
         print(f"Loaded {endpoint} to staging layer")
+"""
+
 
 if __name__ == "__main__":
     main()    
