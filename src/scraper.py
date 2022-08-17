@@ -13,8 +13,21 @@ import codecs
 import csv
 import datetime
 
-class Scraper:
+"""
 
+TODO: 
+
+- Refactor code to include:
+    - Transfers snapshot
+    - Player snapshot
+    - Time stamp for when pull was completed
+
+- Let's see if I can understand the code below first...
+
+"""
+
+
+class Scraper:
 
     api_call_type = ""
     config_file = "fpl_config.json"
@@ -31,28 +44,30 @@ class Scraper:
 
         current_time = datetime.datetime.now().isoformat()
 
-        filtered_elements = {'filtered_elements' : []}
+        transfers_data = [] #{'filtered_elements' : []}
 
         for element in data:
-            filtered_elements['filtered_elements'].append({'id' : element['id'],
-                                                           'transfers_in': element['transfers_in'],
-                                                           'transfers_out': element['transfers_out'],
-                                                           'timestamp': current_time}) # No need to to run datetime.datetime.now() for ever loop, seems wasteful to do so
+           transfers_data.append({'id' : element['id'],
+                                  'transfers_in': element['transfers_in'],
+                                  'transfers_out': element['transfers_out'],
+                                  'timestamp': current_time}) 
 
-        return filtered_elements
+        return transfers_data
 
+    # Trying out the with open() pattern, handles exceptions better and is a better cleaner
+    # TODO: add {datetime.datetime.now().isoformat()} to filename? have to adjust the load scripts
+    # Re: Check for the newest file to load, then check the rows, change data capture...
+    def write_to_file(self, data):
+        # export_file = open(f"../data/{self.api_call_type}_{self.key}.txt", "w") 
+        with open(f"../data/{self.api_call_type}_{self.key}.txt", "w") as export_file:
+            json.dump(data, export_file)
+        # export_file.close()
 
     def main(self, p_config_file): # Q: Why is config_file prefixed with "_p"?
         data = self.get_results(p_config_file) # Why p_config_file and not config_data?
-        # data = self.filter_results(data)
-        pp = pprint.PrettyPrinter(indent=4, sort_dicts=False)
-        pp.pprint(data)
-        # export_file = open(f"../data/data_fpl_transfers_{datetime.datetime.now().isoformat()}.txt" , "w")
-        export_file = open(f"../data/{self.api_call_type}_{self.key}.txt", "w") 
-        json.dump(data, export_file)
-        export_file.close()
-
-        # I need to pull my elements from the json object... found in transfers_scraper.py
+        transfers_data = self.get_transfers_snapshot(data)
+        print(transfers_data)
+        # write_to_file(data)
 
     def __init__(self, api_call_type, key = None):
         self.api_call_type = api_call_type
@@ -61,12 +76,15 @@ class Scraper:
         config_data = json.load(config)
         self.main(config_data) # main() is called when the class is initialized? Yes
 
-# Let's just go with hard-coded method for now, I'll make revisions later on
-# Just want to get it working for now!
-# TODO Make sure to have timestamp columns for all the tables!
-# Going to need a different script for batch loads, this one can be an initial load
 keys_lst = ['events', 'game_settings', 'phases', 'teams', 'total_players', 'elements', 'element_stats', 'element_types']
 
-for key in keys_lst:
-    Scraper('get_bootstrap_static', key)
+# for key in keys_lst:
+    # Scraper('get_bootstrap_static', key)
 
+# Hard-coded here. I might need a separate scripts or modules to pull differen snapshots
+# Or update tables in the case of 'events'
+# And I also have a initial load with the dimensions tables to some extent like teams? or phases 
+# Or element-types
+# Still outstanding is some dimensional modelling
+# For now I'm taking care of the staging layer tables!
+Scraper('get_bootstrap_static', 'elements' ) # Hardcoded to pull from elements to make possible to get transfer data, TODO: refactor into it's own module perhaps... or at least clean this up
