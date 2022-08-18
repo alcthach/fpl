@@ -37,37 +37,44 @@ class Scraper:
         self.data = request.json()[self.key]
         return self.data
 
-    def get_player_value_snapshot(self, data):
-        pass
+    def get_player_cost(self, data):
+        player_cost_data = [] 
+        for player in elements:
+           transfers_data.append(
+                                    {
+                                    'id' : player['id'],
+                                    'cost': player['now_cost'],
+                                    'timestamp': self.get_timestamp()
+                                    }
+                                ) 
+
 
     def get_transfers_snapshot(self, data):
-
-        current_time = datetime.datetime.now().isoformat()
-
-        transfers_data = [] #{'filtered_elements' : []}
-
-        for element in data:
-           transfers_data.append({'id' : element['id'],
-                                  'transfers_in': element['transfers_in'],
-                                  'transfers_out': element['transfers_out'],
-                                  'timestamp': current_time}) 
-
+        transfers_data = [] 
+        for player in data:
+           transfers_data.append({'id' : player['id'],
+                                  'transfers_in': player['transfers_in'],
+                                  'transfers_out': player['transfers_out'],
+                                  'timestamp': self.get_timestamp()}) 
         return transfers_data
 
-    # Trying out the with open() pattern, handles exceptions better and is a better cleaner
-    # TODO: add {datetime.datetime.now().isoformat()} to filename? have to adjust the load scripts
+
+    def get_timestamp(self):
+        timestamp = datetime.datetime.now().isoformat()
+        return timestamp
+
     # Re: Check for the newest file to load, then check the rows, change data capture...
+    # Pattern works however the snapshots write to elements rather transfers
     def write_to_file(self, data):
-        # export_file = open(f"../data/{self.api_call_type}_{self.key}.txt", "w") 
-        with open(f"../data/{self.api_call_type}_{self.key}.txt", "w") as export_file:
+        timestamp = self.get_timestamp()
+        with open(f"../data/{self.api_call_type}_{self.key}_{timestamp}.txt", "w") as export_file:
             json.dump(data, export_file)
-        # export_file.close()
 
     def main(self, p_config_file): # Q: Why is config_file prefixed with "_p"?
-        data = self.get_results(p_config_file) # Why p_config_file and not config_data?
-        transfers_data = self.get_transfers_snapshot(data)
-        print(transfers_data)
-        # write_to_file(data)
+        self.data = self.get_results(p_config_file) # Why p_config_file and not config_data?
+        return self.data
+        # transfers_data = self.get_transfers_snapshot(data)
+        # self.write_to_file(transfers_data)
 
     def __init__(self, api_call_type, key = None):
         self.api_call_type = api_call_type
