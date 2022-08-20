@@ -211,4 +211,23 @@ CREATE TABLE IF NOT EXISTS element_types (
 	ui_shirt_specific	bool NOT NULL,
 	sub_positions_locked	varchar(8), -- Is a list, TODO deal with this later
 	element_count		int NOT NULL
-);
+)
+
+-- Snapshot pulls
+
+CREATE TABLE IF NOT EXISTS transfers_hourly_snapshot
+	(
+	id		varchar(3),
+	transfers_in	int NOT NULL,
+	transfers_out	int NOT NULL,
+	timestamp	timestamp
+	)
+
+CREATE TABLE IF NOT EXISTS player_cost_daily_snapshot
+	(
+	id 		varchar(3),
+	player_cost	int NOT NULL,
+	timestamp	timestamp
+	)
+
+;
