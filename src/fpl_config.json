@@ -2,8 +2,9 @@
 	"get_bootstrap_static":
 	{
 		"api_endpoint" : "https://fantasy.premierleague.com/api/bootstrap-static/",
-		"endpoints":{
-		"events":
+		"endpoints":
+			{
+			"events":
 				{
 				"column_list": "['id', 'name', 'deadline_time', 'average_entry_score', 'finished', 'data_checked', 'highest_scoring_entry', 'deadline_time_epoch', 'deadline_time_game_offset', 'highest_score', 'is_previous', 'is_current', 'is_next', 'cup_leagues_created', 'h2h_ko_matches_created', 'chip_plays', 'most_selected', 'most_transferred_in', 'top_element', 'top_element_info', 'transfers_made', 'most_captained', 'most_vice_captained']",
         			"insert_script": "INSERT INTO events (id, name, deadline_time, average_entry_score, finished, data_checked, highest_scoring_entry, deadline_time_epoch, deadline_time_game_offset, highest_score, is_previous, is_current, is_next, cup_leagues_created, h2h_ko_matches_created, chip_plays, most_selected, most_transferred_in, top_element, top_element_info, transfers_made, most_captained, most_vice_captained) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
@@ -42,7 +43,22 @@
 				{
 				"column_list": "['events', 'game_settings', 'phases', 'teams', 'total_players', 'elements', 'element_stats', 'element_types']",
 				"insert_script": "INSERT INTO element_types (id, plural_name, plural_name_short, singular_name, singular_name_short, squad_select, squad_min_play, squad_max_play, ui_shirt_specific, sub_positions_locked, element_count) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-				}}
+				}
+			},
+		"snapshots":
+			{	
+			"transfers_hourly": 
+				{	
+				"column_list": "['id', 'transfers_in', 'transfers_out', 'timestamp']",
+				"insert_script:": "INSERT INTO transfers_hourly_snapshot (id, transfers_in, transfers_out, timestamp) VALUES (%s, %s, %s, %s)"
+				},
+			"player_cost_daily":
+				{
+				"column_list": "['id', 'player_cost, 'timestamp']",
+				"insert_script:": "INSERT INTO player_cost_daily_snapshot (id, player_cost, timestamp) VALUES (%s, %s, %s)" 
+				}
+			}
+			}
 		}
 
 }
