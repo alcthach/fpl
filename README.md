@@ -8,4 +8,4 @@ I'm at the current stage of plumbing the data. But as time goes on I hope to del
 Thanks for stopping by!
 
 ## TODO:
-- Add 'filename' to fpl_config.json, Re: Try to allow for more dynamic use of `write_to_file()`, right now this is hard-code across the different modules.
+- Add 'filename' to fpl_config.json, Re: Try to allow for more dynamic use of `write_to_file()`, right now this is hard-coded across the different modules.
