@@ -12,7 +12,7 @@ def get_timestamp():
 
 def write_to_file(data):
     timestamp = get_timestamp()
-    with open(f"../data/transfers_hourly_snapshot_{get_timestamp()}.txt", "w") as export_file:
+    with open(f"../data/transfers/transfers_hourly_snapshot_{get_timestamp()}.txt", "w") as export_file:
         json.dump(data, export_file)
 
 def get_transfers_snapshot(data):
