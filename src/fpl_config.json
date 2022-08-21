@@ -50,15 +50,13 @@
 			"transfers_hourly": 
 				{	
 				"column_list": "['id', 'transfers_in', 'transfers_out', 'timestamp']",
-				"insert_script:": "INSERT INTO transfers_hourly_snapshot (id, transfers_in, transfers_out, timestamp) VALUES (%s, %s, %s, %s)"
+				"insert_script": "INSERT INTO transfers_hourly_snapshot (id, transfers_in, transfers_out, timestamp) VALUES (%s, %s, %s, %s)"
 				},
 			"player_cost_daily":
 				{
 				"column_list": "['id', 'player_cost, 'timestamp']",
-				"insert_script:": "INSERT INTO player_cost_daily_snapshot (id, player_cost, timestamp) VALUES (%s, %s, %s)" 
+				"insert_script": "INSERT INTO player_cost_daily_snapshot (id, player_cost, timestamp) VALUES (%s, %s, %s)" 
 				}
 			}
-			}
-		}
-
+	}
 }
