@@ -67,14 +67,14 @@ class Scraper:
     # Pattern works however the snapshots write to elements rather transfers
     def write_to_file(self, data):
         timestamp = self.get_timestamp()
-        with open(f"../data/{self.api_call_type}_{self.key}_{timestamp}.txt", "w") as export_file:
+        with open(f"../data/initial_load/{self.api_call_type}_{self.key}_{timestamp}.txt", "w") as export_file:
             json.dump(data, export_file)
 
     def main(self, p_config_file): # Q: Why is config_file prefixed with "_p"?
         self.data = self.get_results(p_config_file) # Why p_config_file and not config_data?
-        return self.data
+        # return self.data
         # transfers_data = self.get_transfers_snapshot(data)
-        # self.write_to_file(transfers_data)
+        self.write_to_file(self.data)
 
     def __init__(self, api_call_type, key = None):
         self.api_call_type = api_call_type
@@ -85,8 +85,8 @@ class Scraper:
 
 keys_lst = ['events', 'game_settings', 'phases', 'teams', 'total_players', 'elements', 'element_stats', 'element_types']
 
-# for key in keys_lst:
-    # Scraper('get_bootstrap_static', key)
+for key in keys_lst:
+    Scraper('get_bootstrap_static', key)
 
 # Hard-coded here. I might need a separate scripts or modules to pull differen snapshots
 # Or update tables in the case of 'events'
@@ -94,4 +94,4 @@ keys_lst = ['events', 'game_settings', 'phases', 'teams', 'total_players', 'elem
 # Or element-types
 # Still outstanding is some dimensional modelling
 # For now I'm taking care of the staging layer tables!
-Scraper('get_bootstrap_static', 'elements' ) # Hardcoded to pull from elements to make possible to get transfer data, TODO: refactor into it's own module perhaps... or at least clean this up
+# Scraper('get_bootstrap_static', 'elements' ) # Hardcoded to pull from elements to make possible to get transfer data, TODO: refactor into it's own module perhaps... or at least clean this up
