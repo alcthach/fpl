@@ -215,12 +215,14 @@ CREATE TABLE IF NOT EXISTS element_types (
 
 -- Snapshot pulls
 
-CREATE TABLE IF NOT EXISTS transfers_hourly_snapshot
+CREATE TABLE IF NOT EXISTS transfers_half_hour_snapshot
 	(
-	id		varchar(3),
-	transfers_in	int NOT NULL,
-	transfers_out	int NOT NULL,
-	timestamp	timestamp
+	id			varchar(3),
+	transfers_in		int,
+	transfers_in_events 	int,
+	transfers_out		int,
+	transfers_out_events    int,
+	timestamp		timestamp
 );
 
 CREATE TABLE IF NOT EXISTS player_cost_daily_snapshot
@@ -228,4 +230,11 @@ CREATE TABLE IF NOT EXISTS player_cost_daily_snapshot
 	id 		varchar(3),
 	player_cost	int NOT NULL,
 	timestamp	timestamp
+);
+
+CREATE TABLE IF NOT EXISTS selected_by_percent_daily_snapshot
+	(
+	id			varchar(3),
+	selected_by_percent	float NOT NULL,
+	timestamp		timestamp
 );
