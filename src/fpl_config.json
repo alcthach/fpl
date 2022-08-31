@@ -8,25 +8,25 @@
 				{
 				"column_list": "['id', 'name', 'deadline_time', 'average_entry_score', 'finished', 'data_checked', 'highest_scoring_entry', 'deadline_time_epoch', 'deadline_time_game_offset', 'highest_score', 'is_previous', 'is_current', 'is_next', 'cup_leagues_created', 'h2h_ko_matches_created', 'chip_plays', 'most_selected', 'most_transferred_in', 'top_element', 'top_element_info', 'transfers_made', 'most_captained', 'most_vice_captained']",
         			"insert_script": "INSERT INTO events (id, name, deadline_time, average_entry_score, finished, data_checked, highest_scoring_entry, deadline_time_epoch, deadline_time_game_offset, highest_score, is_previous, is_current, is_next, cup_leagues_created, h2h_ko_matches_created, chip_plays, most_selected, most_transferred_in, top_element, top_element_info, transfers_made, most_captained, most_vice_captained) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-				"file_name": "data_events.txt"
+				"file_name": "f'data_events_{timestamp}.txt'"
 				},
 		         "game_settings":
 				{
 				"column_list":"['league_join_private_max', 'league_join_public_max', 'league_max_size_public_classic', 'league_max_size_public_h2h', 'league_max_size_private_h2h', 'league_max_ko_rounds_private_h2h', 'league_prefix_public', 'league_points_h2h_win', 'league_points_h2h_lose', 'league_points_h2h_draw', 'league_ko_first_instead_of_random', 'cup_start_event_id', 'cup_stop_event_id', 'cup_qualifying_method', 'cup_type', 'squad_squadplay', 'squad_squadsize', 'squad_team_limit', 'squad_total_spend', 'ui_currency_multiplier', 'ui_use_special_shirts', 'ui_special_shirt_exclusions', 'stats_form_days', 'sys_vice_captain_enabled', 'transfers_cap', 'transfers_sell_on_fee', 'league_h2h_tiebreak_stats', 'timezone']",
 				"insert_script": "INSERT INTO game_settings (league_join_private_max, league_join_public_max, league_max_size_public_classic, league_max_size_public_h2h, league_max_size_private_h2h, league_max_ko_rounds_private_h2h, league_prefix_public, league_points_h2h_win, league_points_h2h_lose, league_points_h2h_draw, league_ko_first_instead_of_random, cup_start_event_id, cup_stop_event_id, cup_qualifying_method, cup_type, squad_squadplay, squad_squadsize, squad_team_limit, squad_total_spend, ui_currency_multiplier, ui_use_special_shirts, ui_special_shirt_exclusions, stats_form_days, sys_vice_captain_enabled, transfers_cap, transfers_sell_on_fee, league_h2h_tiebreak_stats, timezone) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-				"file_name" : "data_game_settings.txt"
+				"file_name" : "f'data_game_settings_{timestamp}.txt'"
 				},
 			 "phases":
 				{
 				"column_list": "['id', 'name', 'start_event', 'stop_event']",
 				"insert_script": "INSERT INTO phases (id, name, start_event, stop_event) VALUES (%s, %s, %s, %s)",
-				"file_name" : "data_phases.txt"
+				"file_name" : "f'data_phases_{timestamp}.txt'"
 				},
 		         "teams":
 				{
 				"column_list": "['code', 'draw', 'form', 'id', 'loss', 'name', 'played', 'points', 'position', 'short_name', 'strength', 'team_division', 'unavailable', 'win', 'strength_overall_home', 'strength_overall_away', 'strength_attack_home', 'strength_attack_away', 'strength_defence_home', 'strength_defence_away', 'pulse_id']",
 				"insert_script": "INSERT INTO teams (code, draw, form, id, loss, name, played, points, position, short_name, strength, team_division, unavailable, win, strength_overall_home, strength_overall_away, strength_attack_home, strength_attack_away, strength_defence_home, strength_defence_away, pulse_id) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-				"file_name" : "data_team.txt" 
+				"file_name" : "f'data_team_{timestamp}.txt'" 
 				},
 			 "total_players":
 				{
@@ -37,19 +37,19 @@
 				{
 				"column_list": "['chance_of_playing_next_round', 'chance_of_playing_this_round', 'code', 'cost_change_event', 'cost_change_event_fall', 'cost_change_start', 'cost_change_start_fall', 'dreamteam_count', 'element_type', 'ep_next', 'ep_this', 'event_points', 'first_name', 'form', 'id', 'in_dreamteam', 'news', 'news_added', 'now_cost', 'photo', 'points_per_game', 'second_name', 'selected_by_percent', 'special', 'squad_number', 'status', 'team', 'team_code', 'total_points', 'transfers_in', 'transfers_in_event', 'transfers_out', 'transfers_out_event', 'value_form', 'value_season', 'web_name', 'minutes', 'goals_scored', 'assists', 'clean_sheets', 'goals_conceded', 'own_goals', 'penalties_saved', 'penalties_missed', 'yellow_cards', 'red_cards', 'saves', 'bonus', 'bps', 'influence', 'creativity', 'threat', 'ict_index', 'influence_rank', 'influence_rank_type', 'creativity_rank', 'creativity_rank_type', 'threat_rank', 'threat_rank_type', 'ict_index_rank', 'ict_index_rank_type', 'corners_and_indirect_freekicks_order', 'corners_and_indirect_freekicks_text', 'direct_freekicks_order', 'direct_freekicks_text', 'penalties_order', 'penalties_text' ]",
 				"insert_script": "INSERT INTO elements (chance_of_playing_next_round, chance_of_playing_this_round, code, cost_change_event, cost_change_event_fall, cost_change_start, cost_change_start_fall, dreamteam_count, element_type, ep_next, ep_this, event_points, first_name, form, id, in_dreamteam, news, news_added, now_cost, photo, points_per_game, second_name, selected_by_percent, special, squad_number, status, team, team_code, total_points, transfers_in, transfers_in_event, transfers_out, transfers_out_event, value_form, value_season, web_name, minutes, goals_scored, assists, clean_sheets, goals_conceded, own_goals, penalties_saved, penalties_missed, yellow_cards, red_cards, saves, bonus, bps, influence, creativity, threat, ict_index, influence_rank, influence_rank_type, creativity_rank, creativity_rank_type, threat_rank, threat_rank_type, ict_index_rank, ict_index_rank_type, corners_and_indirect_freekicks_order, corners_and_indirect_freekicks_text, direct_freekicks_order, direct_freekicks_text, penalties_order, penalties_text) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-				"file_name" : "data_elements.txt"
+				"file_name" : "f'data_elements_{timestamp}.txt'"
 				},
 		         "element_stats":
 				{
 				"column_list": "['label', 'name']",
 				"insert_script": "INSERT INTO element_stats (label, name) VALUES (%s, %s)",
-				"file_name" : "data_element_stats.txt"
+				"file_name" : "f'data_element_stats_{timestamp}.txt'"
 				},
 			 "element_types":
 				{
 				"column_list": "['events', 'game_settings', 'phases', 'teams', 'total_players', 'elements', 'element_stats', 'element_types']",
 				"insert_script": "INSERT INTO element_types (id, plural_name, plural_name_short, singular_name, singular_name_short, squad_select, squad_min_play, squad_max_play, ui_shirt_specific, sub_positions_locked, element_count) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
-				"file_name" : "data_elements_types.txt"
+				"file_name" : "f'data_elements_types_{timestamp}.txt'"
 				}
 			},
 		"snapshots":
@@ -57,7 +57,7 @@
 			"transfers_hourly": 
 				{	
 				"column_list": "['id', 'transfers_in', 'transfers_out', 'timestamp']",
-				"insert_script": "INSERT INTO transfers_hourly_snapshot (id, transfers_in, transfers_out, timestamp) VALUES (%s, %s, %s, %s)",
+				"insert_script": "INSERT INTO transfers_hourly_snapshot (id, transfers_in, transfers_in_events, transfers_out, transfers_out_events, timestamp) VALUES (%s, %s, %s, %s, %s, %s)",
 				"file_name" : "f'data_transfers_hourly_snapshot_{timestamp}.txt'"
 				},
 			"player_cost_daily":
@@ -65,6 +65,12 @@
 				"column_list": "['id', 'player_cost, 'timestamp']",
 				"insert_script": "INSERT INTO player_cost_daily_snapshot (id, player_cost, timestamp) VALUES (%s, %s, %s)",
 				"file_name" : "f'data_player_cost_daily_snapshot_{timestamp}.txt"
+				}
+			"selected_by_percent":
+				{
+				"column_list": "['id', 'selected_by_percent', 'timestamp']",
+				"insert_script": "INSERT INTO player_cost_daily_snapshot (id, selected_by_percent, timestamp) VALUES (%s, %s, %s)",
+				"file_name" : "f'data_selected_by_percent_daily_snapshot_{timestamp}.txt"
 				}
 			}
 	}
