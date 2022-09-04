@@ -54,10 +54,10 @@
 			},
 		"snapshots":
 			{	
-			"transfers_hourly": 
+			"transfers_bihourly": 
 				{	
 				"column_list": "['id', 'transfers_in', 'transfers_out', 'timestamp']",
-				"insert_script": "INSERT INTO transfers_hourly_snapshot (id, transfers_in, transfers_in_events, transfers_out, transfers_out_events, timestamp) VALUES (%s, %s, %s, %s, %s, %s)",
+				"insert_script": "INSERT INTO transfers_bihourly_snapshot (id, transfers_in, transfers_in_events, transfers_out, transfers_out_events, timestamp) VALUES (%s, %s, %s, %s, %s, %s)",
 				"file_name" : "f'data_transfers_hourly_snapshot_{timestamp}.txt'"
 				},
 			"player_cost_daily":
@@ -65,7 +65,7 @@
 				"column_list": "['id', 'player_cost, 'timestamp']",
 				"insert_script": "INSERT INTO player_cost_daily_snapshot (id, player_cost, timestamp) VALUES (%s, %s, %s)",
 				"file_name" : "f'data_player_cost_daily_snapshot_{timestamp}.txt"
-				}
+				},
 			"selected_by_percent":
 				{
 				"column_list": "['id', 'selected_by_percent', 'timestamp']",
