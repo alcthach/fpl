@@ -23,6 +23,7 @@ def get_transfers_snapshot(data):
                              'transfers_in': player['transfers_in'],
                              'transfers_out': player['transfers_out'],
                              'timestamp': get_timestamp()})
+    print("Successfully pulled transfers snapshot!)
     return transfers_data
 
 def main():
