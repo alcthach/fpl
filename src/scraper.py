@@ -65,9 +65,12 @@ class Scraper:
 
     # Re: Check for the newest file to load, then check the rows, change data capture...
     # Pattern works however the snapshots write to elements rather transfers
+    # WARNING function below does not have a timestamp written to the filename
+    # TODO This will need to be revised for documentation; all tables should also have a timestamp field
+    # too
     def write_to_file(self, data):
         timestamp = self.get_timestamp()
-        with open(f"../data/initial_load/{self.api_call_type}_{self.key}_{timestamp}.txt", "w") as export_file:
+        with open(f"../data/initial_load/{self.api_call_type}_{self.key}.txt", "w") as export_file:
             json.dump(data, export_file)
 
     def main(self, p_config_file): # Q: Why is config_file prefixed with "_p"?
