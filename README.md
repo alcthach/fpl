@@ -9,3 +9,6 @@ Thanks for stopping by!
 
 ## TODO:
 - Add 'filename' to fpl_config.json, Re: Try to allow for more dynamic use of `write_to_file()`, right now this is hard-coded across the different modules.
+- Pull src for snapshots from Raspberry Pi to this repo Re: those are currently "testing" and do not match the src in this repo
+- Get a better understanding of what the transfer data is actually measuring, I.E. is this a rolling snapshot, cumulative
+	- The overall transfer values just appear to increase over time...
