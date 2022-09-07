@@ -43,10 +43,10 @@ files_to_load_lst = []
 
 # file_to_load = f"home/alext/data/transfers/{file}"
 
-for file_name in os.listdir('/home/alext/data/transfers'):
+for file_name in os.listdir('/home/athach/work/projects/fpl/data/transfers/processed_transfers/'):
     files_to_load_lst.append(file_name)
 
-# print(files_to_load_lst[0])
+print(files_to_load_lst)
 
 
 # NOTE File path is hard-coded here, just looking to make sure that I have the 
@@ -54,7 +54,10 @@ for file_name in os.listdir('/home/alext/data/transfers'):
 
 # print(type(ldb.get_data(f"/home/alext/data/transfers/{files_to_load_lst[0]}", endpoint=None)))
 
-data = ldb.get_data(f"/home/alext/data/transfers/{files_to_load_lst[0]}", endpoint=None)
+for file in files_to_load_lst:
+    data = ldb.get_data(f"/home/athach/work/projects/fpl/data/transfers/processed_transfers/{file}", endpoint=None)
+    print(f"Loading: {file} to fpl database.")
+    ldb.load_to_db_if_lst(data=data, endpoint=None, transactions_sql=transactions_sql)
 
 # Double-checking to see if the dimensions of the tuple is correct
 # Not correct due to governance issues, my older pulls do not have the 
@@ -64,7 +67,7 @@ data = ldb.get_data(f"/home/alext/data/transfers/{files_to_load_lst[0]}", endpoi
 # for now
 
 # TODO move the older transfer pulls for now!
-print(data[0])
+# print(data[0])
 
 # TRYING TO LOAD THE DATA HERE EVENTUALLY
 # ldb.load_to_db_if_lst(data=data, endpoint=None, transactions_sql=transactions_sql)
