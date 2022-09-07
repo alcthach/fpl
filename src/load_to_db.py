@@ -70,7 +70,7 @@ def main():
     config_data = load_config(config_file)
     endpoints = get_endpoints(config_data)
     for endpoint in endpoints:
-        file_to_load = f"../data/get_bootstrap_static_{endpoint}.txt"
+        file_to_load = f"../data/initial_load/get_bootstrap_static_{endpoint}.txt"
         data = get_data(file_to_load, endpoint)
         transactions_sql = parse_insert_script(config_data, endpoint)
         if type(data) == dict:
