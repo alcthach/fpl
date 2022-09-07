@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS events (
 	most_transferred_in		varchar(3),
 	top_element			varchar(3),
 	top_element_info		varchar(128),
-	transfers_made			varchar(3),
+	transfers_made			varchar(32),
 	most_captained			varchar(3),
 	most_vice_captained		varchar(3)
 );
