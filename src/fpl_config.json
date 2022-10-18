@@ -57,7 +57,7 @@
 			"transfers_bihourly": 
 				{	
 				"column_list": "['id', 'transfers_in', 'transfers_out', 'timestamp']",
-				"insert_script": "INSERT INTO transfers_bihourly_snapshot (id, transfers_in, transfers_in_events, transfers_out, transfers_out_events, timestamp) VALUES (%s, %s, %s, %s, %s, %s)",
+				"insert_script": "INSERT INTO transfers_half_hour_snapshot (id, transfers_in, transfers_in_events, transfers_out, transfers_out_events, timestamp) VALUES (%s, %s, %s, %s, %s, %s)",
 				"file_name" : "f'data_transfers_hourly_snapshot_{timestamp}.txt'"
 				},
 			"player_cost_daily":

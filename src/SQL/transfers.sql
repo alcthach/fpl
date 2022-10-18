@@ -10,5 +10,5 @@ SELECT first_name,
 FROM elements e 
 JOIN transfers_half_hour_snapshot thhs 
 ON e.id = thhs.id 
-WHERE first_name = 'Erling'
+WHERE second_name = 'Salah'
 ORDER BY timestamp ASC;
